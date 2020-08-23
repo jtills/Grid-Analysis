@@ -6,7 +6,7 @@ The program returns average statistics for the region and the UK, plotting a val
 
 Currently only displaying the green energy sources to compare to carbon intensity values, but this can be changed manually in the code.
 
-Used National Grid:
+Used National Grid's Carbon Intensity API:
 
 https://carbonintensity.org.uk/
 
