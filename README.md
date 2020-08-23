@@ -22,8 +22,8 @@ How I would improve this project:
 1. Performance: Use Numpy package to extract data more efficiently (if possible)
 2. User Interface: Create user input that lets user choose which energy source(s) to analyse and adjusts graphs accordingly
 3. Data Visualization:
-  a. Major and minor ticks on the x-axis that avoid repetition, displaying only significant changes in time and adjusting depending on                time range
-  b. Allow event handling and picking to easily take values from the graphs
+  1. Major and minor ticks on the x-axis that avoid repetition, displaying only significant changes in time and adjusting depending on                time range
+  2. Allow event handling and picking to easily take values from the graphs
 
 ![](/images/Statistics.JPG)
 
