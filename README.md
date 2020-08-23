@@ -21,15 +21,15 @@ How I would improve this project:
 
 
  Markup : 1. A numbered list
-              1. A nested numbered list
+          1. A nested numbered list
               2. Which is numbered
           2. Which is numbered
           
 1. Performance: Use Numpy package to extract data more efficiently (if possible)
 2. User Interface: Create user input that lets user choose which energy source(s) to analyse and adjusts graphs accordingly
 3. Data Visualization:
-  1. Major and minor ticks on the x-axis that avoid repetition, displaying only significant changes in time and adjusting depending on time range
-  2. Allow event handling and picking to easily take values from the graphs
+    1. Major and minor ticks on the x-axis that avoid repetition, displaying only significant changes in time and adjusting depending on time range
+    2. Allow event handling and picking to easily take values from the graphs
 
 ![](/images/Statistics.JPG)
 
