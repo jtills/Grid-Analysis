@@ -2,3 +2,9 @@
 Compare local and national UK carbon intensity data for a span of up to 14 days
 
 ![](/images/Statistics.JPG)
+
+![](/images/main.JPG)
+
+![](/images/subplots.JPG)
+
+![](/images/stacked.JPG)
