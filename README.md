@@ -29,7 +29,7 @@ How I would improve this project:
     
  ## Output
 
-![](/images/Statistics.JPG)
+![](/images/Statistics_Cleaner.JPG)
 
 ![](/images/main.JPG)
 
