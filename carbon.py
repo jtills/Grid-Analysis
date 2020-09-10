@@ -13,7 +13,9 @@ How I would improve this project:
 
 NOTE: All Regional Carbon Intensity Values are Forecasts. The Regional Data API is in Beta.
 """
-
+from astropy.table import Table
+import astropy.units as u
+import numpy as np
 import requests
 import statistics
 from pandas import DataFrame
@@ -71,37 +73,46 @@ while True:
     reg_solar =      regread(7)
     reg_wind =       regread(8)
 
-    print('\nNational Carbon Intensity Data Between {} and {} :'.format(frm,to))
-    print('Maximum : {} gCO2/kWh'.format(max(nat_CO2)))
-    print('Average : {} gCO2/kWh'.format(sum(nat_CO2)/len(nat_CO2)))
-    print('Minimum : {} gCO2/kWh\n'.format(min(nat_CO2)))
+    """DATA TABLES"""
+    
+    a = ['Maximum','Average','Minimum']
+    b = [max(reg_CO2),round(sum(reg_CO2)/len(reg_CO2),1),min(reg_CO2)]
+    c = [max(nat_CO2),round(sum(nat_CO2)/len(nat_CO2),1),min(nat_CO2)]
 
-    print('National Averages of Energy Generation:')
-    print("Biomass : {0:.2f} %".format(statistics.mean(nat_bm)))
-    print("Coal    : {0:.2f} %".format(statistics.mean(nat_coal)))
-    print("Imports : {0:.2f} %".format(statistics.mean(nat_imports)))
-    print("Gas     : {0:.2f} %".format(statistics.mean(nat_gas)))
-    print("Nuclear : {0:.2f} %".format(statistics.mean(nat_nuclear)))
-    print("Other   : {0:.2f} %".format(statistics.mean(nat_other)))
-    print("Hydro   : {0:.2f} %".format(statistics.mean(nat_hydro)))
-    print("Solar   : {0:.2f} %".format(statistics.mean(nat_solar)))
-    print("Wind    : {0:.2f} %\n".format(statistics.mean(nat_wind)))
+    t1 = Table([a,b,c],names=('Statistic','National','{}'.format(reg_data_r['data']['shortname'])))
 
-    print('Regional Carbon Intensity Data for {} '.format(reg_data_r['data']['shortname']))
-    print('Maximum : {0:.2f} gCO2/kWh'.format(max(reg_CO2)))
-    print('Average : {0:.2f} gCO2/kWh'.format(sum(reg_CO2)/len(reg_CO2)))
-    print('Minimum : {0:.2f} gCO2/kWh\n'.format(min(reg_CO2)))
+    d = ["Biomass", "Coal","Imports","Gas","Nuclear","Other","Hydro","Solar","Wind"]
+    e = [statistics.mean(reg_bm),
+         statistics.mean(reg_coal),
+         statistics.mean(reg_imports),
+         statistics.mean(reg_gas),
+         statistics.mean(reg_nuclear),
+         statistics.mean(reg_other),
+         statistics.mean(reg_hydro),
+         statistics.mean(reg_solar),
+         statistics.mean(reg_wind)] *u.percent
+    f = [statistics.mean(nat_bm),
+         statistics.mean(nat_coal),
+         statistics.mean(nat_imports),
+         statistics.mean(nat_gas),
+         statistics.mean(nat_nuclear),
+         statistics.mean(nat_other),
+         statistics.mean(nat_hydro),
+         statistics.mean(nat_solar),
+         statistics.mean(nat_wind)] *u.percent
 
-    print('Regional Averages of Energy Generation in {} :'.format(reg_data_r['data']['shortname']))
-    print("Biomass : {0:.2f} %".format(statistics.mean(reg_bm)))
-    print("Coal    : {0:.2f} %".format(statistics.mean(reg_coal)))
-    print("Imports : {0:.2f} %".format(statistics.mean(reg_imports)))
-    print("Gas     : {0:.2f} %".format(statistics.mean(reg_gas)))
-    print("Nuclear : {0:.2f} %".format(statistics.mean(reg_nuclear)))
-    print("Other   : {0:.2f} %".format(statistics.mean(reg_other)))
-    print("Hydro   : {0:.2f} %".format(statistics.mean(reg_hydro)))
-    print("Solar   : {0:.2f} %".format(statistics.mean(reg_solar)))
-    print("Wind    : {0:.2f} %\n".format(statistics.mean(reg_wind)))
+    t2 = Table([d,e,f],names=('Energy Sources', '{}'.format(reg_data_r['data']['shortname']), 'National'))
+
+    for col in t2.itercols():
+        if col.info.dtype.kind == 'f':
+            np.around(col, decimals=2, out=col)
+
+    print('\nCarbon intensity Statistics(in gCO2/kWh):\n')
+    t1.pprint(align=['<','<','<'])
+    print('\n\nAverage Energy Production Breakdown:\n')
+    t2.pprint(align=['<','<','<'])
+
+    """DATA ANALYSIS"""
 
     t_length =  len(reg_data_r['data']['data'])
 
@@ -110,10 +121,7 @@ while True:
 
     if reg_data_r['data']['data'][t_length-1]['from'][5:10] == reg_data_r['data']['data'][0]['from'][5:10]:
         time = [reg_data_r['data']['data'][n]['from'][11:16] for n in range(t_length)]
-
-    """DATA ANALYSIS"""
-
-
+    
     df_reg = pd.DataFrame({
         #'Biomass'         : reg_bm,
         #'Coal'            : reg_coal,
